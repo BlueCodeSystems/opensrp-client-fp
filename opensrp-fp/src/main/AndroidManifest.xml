@@ -27,6 +27,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        
+        <!-- Fix Android 12+ compatibility: Add explicit android:exported for receivers -->
+        <receiver
+            android:name="org.smartregister.view.receiver.ConnectivityChangeReceiver"
+            android:exported="false"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver
+            android:name="org.smartregister.view.receiver.TimeChangedBroadcastReceiver"
+            android:exported="false"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

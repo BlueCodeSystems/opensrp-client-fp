@@ -24,6 +24,7 @@
         android:theme="@style/FPAppTheme">
         <activity
             android:name="org.smartregister.sample.fp.login.ui.LoginActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/FPAppTheme.Login"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
