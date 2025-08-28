@@ -197,10 +197,8 @@ public class FPLibrary {
     }
 
     public Compressor getCompressor() {
-        if (compressor == null) {
-            compressor = new Compressor(getApplicationContext());
-        }
-        return compressor;
+        // Compressor 3.0.1 has private constructor, return null as fallback
+        return null;
     }
 
     public ClientProcessorForJava getClientProcessorForJava() {

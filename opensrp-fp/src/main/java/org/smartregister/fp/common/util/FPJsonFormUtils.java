@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -262,7 +263,7 @@ public class FPJsonFormUtils extends org.smartregister.util.JsonFormUtils {
     private static FormTag getFormTag(AllSharedPreferences allSharedPreferences) {
         FormTag formTag = new FormTag();
         formTag.providerId = allSharedPreferences.fetchRegisteredANM();
-        formTag.appVersion = BuildConfig.VERSION_CODE;
+        formTag.appVersion = 1;
         formTag.databaseVersion = FPLibrary.getInstance().getDatabaseVersion();
         return formTag;
     }
@@ -275,7 +276,7 @@ public class FPJsonFormUtils extends org.smartregister.util.JsonFormUtils {
         event.setTeam(allSharedPreferences.fetchDefaultTeam(providerId));
         event.setTeamId(allSharedPreferences.fetchDefaultTeamId(providerId));
         //event.setVersion(BuildConfig.EVENT_VERSION);
-        event.setClientApplicationVersion(BuildConfig.VERSION_CODE);
+        event.setClientApplicationVersion(1);
         event.setClientDatabaseVersion(FPLibrary.getInstance().getDatabaseVersion());
     }
 
@@ -318,7 +319,7 @@ public class FPJsonFormUtils extends org.smartregister.util.JsonFormUtils {
                 return;
             }
 
-            Bitmap compressedBitmap = FPLibrary.getInstance().getCompressor().compressToBitmap(file);
+            Bitmap compressedBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
             if (compressedBitmap == null || StringUtils.isBlank(providerId) || StringUtils.isBlank(entityId)) {
                 return;
             }

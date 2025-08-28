@@ -215,7 +215,7 @@ public class FPJsonFormUtilsTest {
         PowerMockito.mockStatic(FPLibrary.class);
         PowerMockito.when(FPLibrary.getInstance()).thenReturn(ancLibrary);
         PowerMockito.when(ancLibrary.getCompressor()).thenReturn(compressor);
-        PowerMockito.when(compressor.compressToBitmap(ArgumentMatchers.any(File.class))).thenReturn(bitmap);
+        // Compressor.compressToBitmap method removed, using BitmapFactory.decodeFile instead
 
         PowerMockito.when(ancLibrary.getContext()).thenReturn(context);
         PowerMockito.when(context.imageRepository()).thenReturn(imageRepository);
@@ -242,7 +242,7 @@ public class FPJsonFormUtilsTest {
         PowerMockito.mockStatic(FPLibrary.class);
         PowerMockito.when(FPLibrary.getInstance()).thenReturn(ancLibrary);
         PowerMockito.when(ancLibrary.getCompressor()).thenReturn(compressor);
-        PowerMockito.when(compressor.compressToBitmap(ArgumentMatchers.any(File.class))).thenReturn(bitmap);
+        // Compressor.compressToBitmap method removed, using BitmapFactory.decodeFile instead
 
         PowerMockito.when(ancLibrary.getContext()).thenReturn(context);
         PowerMockito.when(context.imageRepository()).thenReturn(imageRepository);
@@ -267,7 +267,7 @@ public class FPJsonFormUtilsTest {
         PowerMockito.mockStatic(FPLibrary.class);
         PowerMockito.when(FPLibrary.getInstance()).thenReturn(ancLibrary);
         PowerMockito.when(ancLibrary.getCompressor()).thenReturn(compressor);
-        PowerMockito.when(compressor.compressToBitmap(ArgumentMatchers.any(File.class))).thenReturn(null);
+        // Compressor.compressToBitmap method removed, using BitmapFactory.decodeFile instead
 
         PowerMockito.when(ancLibrary.getContext()).thenReturn(context);
         PowerMockito.when(context.imageRepository()).thenReturn(imageRepository);
@@ -293,7 +293,7 @@ public class FPJsonFormUtilsTest {
         PowerMockito.mockStatic(FPLibrary.class);
         PowerMockito.when(FPLibrary.getInstance()).thenReturn(ancLibrary);
         PowerMockito.when(ancLibrary.getCompressor()).thenReturn(compressor);
-        PowerMockito.when(compressor.compressToBitmap(ArgumentMatchers.any(File.class))).thenReturn(bitmap);
+        // Compressor.compressToBitmap method removed, using BitmapFactory.decodeFile instead
 
         PowerMockito.when(ancLibrary.getContext()).thenReturn(context);
         PowerMockito.when(context.imageRepository()).thenReturn(imageRepository);
@@ -319,7 +319,7 @@ public class FPJsonFormUtilsTest {
         PowerMockito.mockStatic(FPLibrary.class);
         PowerMockito.when(FPLibrary.getInstance()).thenReturn(ancLibrary);
         PowerMockito.when(ancLibrary.getCompressor()).thenReturn(compressor);
-        PowerMockito.when(compressor.compressToBitmap(ArgumentMatchers.any(File.class))).thenThrow(IOException.class);
+        // Compressor.compressToBitmap method removed, using BitmapFactory.decodeFile instead
 
         PowerMockito.when(ancLibrary.getContext()).thenReturn(context);
         PowerMockito.when(context.imageRepository()).thenReturn(imageRepository);

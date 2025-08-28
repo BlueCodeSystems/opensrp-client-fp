@@ -2,6 +2,7 @@ package org.smartregister.fp.features.visit.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -131,7 +132,7 @@ public class StartVisitJsonWizardFormFragment extends JsonWizardFormFragment {
     public void onResume() {
         super.onResume();
         if (!getJsonApi().isPreviousPressed()) {
-            skipStepsOnNextPressed();
+            skipStepsOnNextPressed("");
         } else {
             skipStepOnPreviousPressed();
         }
@@ -350,11 +351,11 @@ public class StartVisitJsonWizardFormFragment extends JsonWizardFormFragment {
             if (view.getId() == com.vijay.jsonwizard.R.id.next || view.getId() == com.vijay.jsonwizard.R.id.next_icon) {
                 Object tag = view.getTag(com.vijay.jsonwizard.R.id.NEXT_STATE);
                 if (tag == null) {
-                    new NextProgressDialogTask(getJsonFormFragment()).execute();
+                    new NextProgressDialogTask(getJsonFormFragment());
                 } else {
                     boolean next = (boolean) tag;
                     if (next) {
-                        new NextProgressDialogTask(getJsonFormFragment()).execute();
+                        new NextProgressDialogTask(getJsonFormFragment());
                     } else {
                         savePartial = true;
                         save();

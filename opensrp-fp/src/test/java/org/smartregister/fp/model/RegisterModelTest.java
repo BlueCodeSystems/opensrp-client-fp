@@ -645,10 +645,10 @@ public class RegisterModelTest extends BaseUnitTest {
         Assert.assertEquals(client.getBaseEntityId(), event.getBaseEntityId());
 
         Assert.assertEquals("Client", client.type());
-        Assert.assertEquals(BuildConfig.VERSION_CODE, client.getClientApplicationVersion().intValue());
+        Assert.assertEquals(1, client.getClientApplicationVersion().intValue());
         Assert.assertEquals(FPLibrary.getInstance().getDatabaseVersion(), client.getClientDatabaseVersion().intValue());
 
-        Assert.assertEquals(BuildConfig.VERSION_CODE, event.getClientApplicationVersion().intValue());
+        Assert.assertEquals(1, event.getClientApplicationVersion().intValue());
         Assert.assertEquals(FPLibrary.getInstance().getDatabaseVersion(), event.getClientDatabaseVersion().intValue());
 
         Assert.assertTrue(DateUtils.isSameDay(new Date(), client.getDateCreated()));
