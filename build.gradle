@@ -9,10 +9,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-        classpath 'com.palantir:jacoco-coverage:0.4.0'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
+        // classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
         classpath 'com.google.gms:google-services:4.3.3'
         // Add the Crashlytics Gradle plugin.
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.1.0'
@@ -22,7 +21,7 @@ buildscript {
     }
 }
 
-apply plugin: 'com.palantir.jacoco-full-report'
+apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 configure(allprojects) { project ->
@@ -63,39 +62,47 @@ project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 subprojects {
     group = 'org.smartregister'
 
-    ext.androidToolsBuildGradle = '3.6.2'
-    ext.androidBuildToolsVersion = '29.0.2'
-    ext.androidMinSdkVersion = 18
-    ext.androidCompileSdkVersion = 29
-    ext.androidTargetSdkVersion = 29
+    ext.androidToolsBuildGradle = '7.4.2'
+    ext.androidBuildToolsVersion = '33.0.0'
+    ext.androidMinSdkVersion = 21
+    ext.androidCompileSdkVersion = 33
+    ext.androidTargetSdkVersion = 33
     ext.androidAnnotationsVersion = '3.0.1'
     ext.androidAnnotationsAPIVersion = '3.0.1'
     ext.jacocoVersion = "0.8.5"
 
-    // Improve build server performance by allowing disabling of pre-dexing
-    // (see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.)
-    project.plugins.whenPluginAdded { plugin ->
-        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
-            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
-            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-        }
-    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-jacocoFull {
-    excludeProject ":opensrp-client-fp"
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+task jacocoFullReport(type: JacocoReport) {
+    dependsOn ':opensrp-fp:testDebugUnitTest'
+    
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+    
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${project(':opensrp-fp').buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "${project(':opensrp-fp').projectDir}/src/main/java"
+    
+    sourceDirectories.setFrom files([mainSrc])
+    classDirectories.setFrom files([debugTree])
+    executionData.setFrom fileTree(dir: "${project(':opensrp-fp').buildDir}", includes: ['jacoco/testDebugUnitTest.exec'])
 }
 
 coveralls {
     jacocoReportPath = "${buildDir}/reports/jacoco/jacocoFullReport/jacocoFullReport.xml"
     sourceDirs += ["opensrp-fp/src/main/java/", "reference-app/src/main/java"]
 }
-apply plugin: 'io.codearte.nexus-staging'
+// apply plugin: 'io.codearte.nexus-staging'
 
 def isReleaseBuild() {
     return version.contains("SNAPSHOT") == false
