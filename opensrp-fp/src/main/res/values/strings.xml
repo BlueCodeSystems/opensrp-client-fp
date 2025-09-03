@@ -434,6 +434,11 @@
     <string name="balanced_diet_content_13">The maximum daily dose of caffeine intake for a pregnant woman is 300mg, is equivalent to:</string>
     <string name="balanced_diet_url_11">ftp://ftp.caism.unicamp.br/pub/astec/CARTILHA_DE_EXERCISIO_FISICO_NA_GRAVIDEZ_Publico.pdf</string>
     <string name="save_label">SAVE</string>
+    <!-- Added placeholders for missing strings referenced in code -->
+    <string name="confirm_form_close">Discard changes?</string>
+    <string name="confirm_form_close_explanation">You have unsaved changes. Do you want to discard them?</string>
+    <string name="search_hint">Search</string>
+    <string name="str_page_info">Page {0} of {1}</string>
     <string name="chosen_method">Chosen method</string>
     <string name="referred">Referred?</string>
     <string name="method_start_date">Method start date</string>

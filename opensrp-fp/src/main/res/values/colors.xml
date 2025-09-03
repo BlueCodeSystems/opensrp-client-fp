@@ -118,4 +118,7 @@
     <color name="translucent_very_light_gray">#D2D2D2</color>
     <color name="dark_tangerine">#FFFCA917</color>
     <color name="jasper">#FFD13F3F</color>
+    <!-- Add common colors used by code -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
 </resources>

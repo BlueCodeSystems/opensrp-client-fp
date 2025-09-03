@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Placeholder IDs to satisfy references; base/core may override in app -->
+    <item name="action_clients" type="id"/>
+    <item name="action_search" type="id"/>
+    <item name="action_library" type="id"/>
+    <item name="action_save" type="id"/>
+</resources>
+
