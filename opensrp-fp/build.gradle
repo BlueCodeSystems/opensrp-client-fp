@@ -195,8 +195,8 @@ dependencies {
         transitive = true
     }*/
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'org.greenrobot:eventbus:3.1.1'
-    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.3.1'
     implementation 'com.google.guava:guava:24.1-jre'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // Because RxAndroid releases are few and far between, it is recommended you also

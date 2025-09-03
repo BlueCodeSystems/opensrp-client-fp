@@ -337,10 +337,8 @@ public class FPJsonFormUtils extends org.smartregister.util.JsonFormUtils {
                 imageRepository.add(profileImage);
             }
 
-        } catch (FileNotFoundException e) {
-            Timber.e("Failed to save static image to disk");
         } catch (IOException e) {
-            Timber.e(e, " --> saveImage");
+            Timber.e(e, "Failed to save static image to disk --> saveImage");
         } finally {
             if (outputStream != null) {
                 try {

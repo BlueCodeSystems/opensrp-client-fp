@@ -304,7 +304,7 @@ dependencies {
         transitive = true
     }*/
     // Multidex not required for minSdk 28+
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.3.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
