@@ -20,12 +20,12 @@ This is a BlueCode Systems maintained fork of the original OpenSRP Family Planni
 
 ### Gradle (Kotlin DSL)
 ```kotlin
-implementation("io.github.bluecodesystems:opensrp-client-fp:1.0.1")
+implementation("io.github.bluecodesystems:opensrp-client-fp:2.0.0")
 ```
 
 ### Gradle (Groovy DSL)
 ```groovy
-implementation 'io.github.bluecodesystems:opensrp-client-fp:1.0.1'
+implementation 'io.github.bluecodesystems:opensrp-client-fp:2.0.0'
 ```
 
 ## Key Dependencies
@@ -99,7 +99,7 @@ If migrating from the original OpenSRP Family Planning library:
 
 ## Version History
 
-### v1.0.1 (Latest)
+### v2.0.0 (Latest)
 - ✅ Modernized build system with AGP 7.4.2
 - ✅ Android 12+ manifest compatibility
 - ✅ Updated to BlueCode maintained dependencies
@@ -124,9 +124,9 @@ If migrating from the original OpenSRP Family Planning library:
 ### Maven Central Publishing
 ```bash
 # Generate signed bundle for Maven Central
-./gradlew :opensrp-fp:zipCentralBundle -PcentralBundle=true -PcentralRelease=true -PuseGpgCmd=true -PVERSION_NAME=1.0.1
+./gradlew :opensrp-fp:zipCentralBundle -PcentralBundle=true -PcentralRelease=true -PuseGpgCmd=true -PVERSION_NAME=2.0.0
 
-# Bundle location: opensrp-fp/build/distributions/central-bundle-opensrp-client-fp-1.0.1.zip
+# Bundle location: opensrp-fp/build/distributions/central-bundle-opensrp-client-fp-2.0.0.zip
 ```
 
 ## Contributing
