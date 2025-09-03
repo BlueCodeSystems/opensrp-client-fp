@@ -157,6 +157,17 @@ public class HomeRegisterActivity extends BaseRegisterActivity implements Regist
     }
 
     @Override
+    public void startFormActivity(String formName, String entityId, java.util.Map<String, String> metaData) {
+        // Convert Map to String for existing implementation
+        String metaDataString = null;
+        if (metaData != null && !metaData.isEmpty()) {
+            // You can customize this conversion based on your needs
+            metaDataString = metaData.toString();
+        }
+        startFormActivity(formName, entityId, metaDataString);
+    }
+
+    @Override
     public void startFormActivity(JSONObject form) {
         Intent intent = new Intent(this, JsonWizardFormActivity.class);
         intent.putExtra(ConstantsUtils.JsonFormExtraUtils.JSON, form.toString());
@@ -337,7 +348,7 @@ public class HomeRegisterActivity extends BaseRegisterActivity implements Regist
 
     @Override
     public void startRegistration() {
-        startFormActivity(ConstantsUtils.JsonFormUtils.FP_REGISTER, null, null);
+        startFormActivity(ConstantsUtils.JsonFormUtils.FP_REGISTER, null, (String) null);
     }
 
     public void showRecordBirthPopUp(CommonPersonObjectClient client) {

@@ -146,7 +146,7 @@ public class HomeRegisterFragment extends BaseRegisterFragment implements Regist
 
     @Override
     protected void startRegistration() {
-        ((HomeRegisterActivity) getActivity()).startFormActivity(ConstantsUtils.JsonFormUtils.FP_REGISTER, null, null);
+        ((HomeRegisterActivity) getActivity()).startFormActivity(ConstantsUtils.JsonFormUtils.FP_REGISTER, null, (String) null);
     }
 
     @Override
