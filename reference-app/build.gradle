@@ -32,6 +32,43 @@ ext.minimumSdkVersion = androidMinSdkVersion
 configurations {
     all {
         exclude group: 'com.google.guava', module: 'listenablefuture'
+        
+        // Force Jackson libraries to use Java 8 compatible versions to avoid Jetifier issues
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            if (details.requested.group.startsWith('com.fasterxml.jackson')) {
+                details.useVersion '2.13.5'
+                details.because 'Jetifier cannot process newer Jackson versions compiled with Java 11+'
+            }
+            // Force consistent versions to avoid duplicate classes
+            if (details.requested.group == 'io.github.bluecodesystems' && details.requested.name == 'opensrp-client-core') {
+                details.useVersion '6.2.0'
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'com.github.BlueCodeSystems' && details.requested.name == 'opensrp-client-core') {
+                details.useTarget('io.github.bluecodesystems:opensrp-client-core:6.2.0')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'com.commonsware.cwac' && details.requested.name == 'saferoom.x') {
+                details.useTarget('com.commonsware.cwac:saferoom:1.0.2')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'com.github.BlueCodeSystems' && details.requested.name == 'android-p2p-sync') {
+                details.useTarget('io.github.bluecodesystems:android-p2p-sync:0.4.1')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'io.github.bluecodesystems' && details.requested.name == 'opensrp-configurable-views') {
+                details.useTarget('com.github.BlueCodeSystems:opensrp-client-configurable-views:v2.0.1')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'org.smartregister' && details.requested.name == 'opensrp-plan-evaluator') {
+                details.useTarget('io.github.bluecodesystems:opensrp-plan-evaluator:1.7.0')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+            if (details.requested.group == 'org.smartregister' && details.requested.name == 'android-p2p-sync') {
+                details.useTarget('io.github.bluecodesystems:android-p2p-sync:0.4.1')
+                details.because 'Use consistent version to avoid duplicate classes'
+            }
+        }
     }
 }
 
@@ -79,7 +116,7 @@ android {
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "true"
         buildConfigField "long", "EVENT_VERSION", System.currentTimeMillis() + "L"
-        multiDexEnabled true
+        // multidex no longer needed with minSdk 28+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         if (properties != null && properties.containsKey("store.file") && properties.containsKey("store.password") && properties.containsKey("key.password")) {
@@ -107,9 +144,6 @@ android {
         }
     }
 
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
 
     lintOptions {
         lintConfig file("lint.xml")
@@ -224,49 +258,29 @@ dependencies {
     // Temporarily disable Firebase Crashlytics SDK due to Gradle compatibility issues
     // implementation 'com.google.firebase:firebase-crashlytics:18.6.4'
 
-    implementation('org.smartregister:opensrp-client-core:1.10.9002-TEST-SNAPSHOT@aar') {
+    implementation('io.github.bluecodesystems:opensrp-client-core:6.2.0') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.google.guava', module: 'listenablefuture'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'net.zetetic', module: 'android-database-sqlcipher'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'support-media-compat'
-        exclude group: 'com.android.support', module: 'cardview-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
     }
 
-    implementation('org.smartregister:opensrp-client-configurable-views:1.1.5-SNAPSHOT@aar') {
+    implementation('com.github.BlueCodeSystems:opensrp-client-configurable-views:v2.0.1') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'support-media-compat'
-        exclude group: 'com.android.support', module: 'cardview-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
     }
 
     implementation('io.github.bluecodesystems:opensrp-client-native-form-new:3.1.3@aar') {
         transitive = true
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'cardview-v7'
-        exclude group: 'com.android.support', module: 'support-media-compat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude group: 'com.android.support', module: 'design'
+        // No support library excludes needed on AndroidX
         exclude group: 'org.yaml', module: 'snakeyaml'
         exclude group: 'io.ona.rdt-capture', module: 'lib'
         exclude group: 'io.ona.CircleProgressbar', module: 'lib'
     }
-    implementation('com.android.support:design:29.0.0') {
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'cardview-v7'
-    }
-    //implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.android.support:recyclerview-v7:29.0.0'
-    implementation 'com.android.support:cardview-v7:29.0.0'
+    implementation('com.google.android.material:material:1.12.0')
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
     //implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'net.zetetic:android-database-sqlcipher:4.2.0@aar'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.25'
@@ -289,7 +303,7 @@ dependencies {
     /*implementation('com.crashlytics.sdk.android:crashlytics:2.10.1') {
         transitive = true
     }*/
-    implementation 'com.android.support:multidex:1.0.3'
+    // Multidex not required for minSdk 28+
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     testImplementation 'junit:junit:4.12'
@@ -298,8 +312,7 @@ dependencies {
         exclude module: 'support-v4'
     }
     testImplementation 'org.robolectric:robolectric:4.3.1'
-    testImplementation 'org.robolectric:shadows-multidex:4.3.1'
-    testImplementation 'org.robolectric:shadows-support-v4:3.4-rc2'
+    // Removed legacy Robolectric shadows; not needed at minSdk 28+
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
     testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
     testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
