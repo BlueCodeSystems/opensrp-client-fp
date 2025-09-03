@@ -64,9 +64,9 @@ subprojects {
 
     ext.androidToolsBuildGradle = '7.4.2'
     ext.androidBuildToolsVersion = '33.0.0'
-    ext.androidMinSdkVersion = 21
-    ext.androidCompileSdkVersion = 33
-    ext.androidTargetSdkVersion = 33
+    ext.androidMinSdkVersion = 28
+    ext.androidCompileSdkVersion = 34
+    ext.androidTargetSdkVersion = 34
     ext.androidAnnotationsVersion = '3.0.1'
     ext.androidAnnotationsAPIVersion = '3.0.1'
     ext.jacocoVersion = "0.8.5"
