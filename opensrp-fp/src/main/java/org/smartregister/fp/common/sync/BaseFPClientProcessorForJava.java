@@ -13,8 +13,8 @@ import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.commonregistry.AllCommonsRepository;
-import org.smartregister.domain.db.Client;
-import org.smartregister.domain.db.Event;
+import org.smartregister.domain.Client;
+import org.smartregister.domain.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.domain.jsonmapping.ClientClassification;
 import org.smartregister.domain.jsonmapping.ClientField;
