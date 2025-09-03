@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.smartregister.fp">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -19,8 +18,7 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/FPAppTheme"
-        tools:replace="android:theme">
+        android:theme="@style/FPAppTheme">
         <activity
             android:name="com.vijay.jsonwizard.activities.JsonWizardFormActivity"
             android:launchMode="singleTask"
@@ -31,8 +29,7 @@
         <!-- Fix Android 12+ compatibility: Add explicit android:exported for receivers -->
         <receiver
             android:name="org.smartregister.view.receiver.ConnectivityChangeReceiver"
-            android:exported="false"
-            tools:replace="android:exported">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -40,8 +37,7 @@
         
         <receiver
             android:name="org.smartregister.view.receiver.TimeChangedBroadcastReceiver"
-            android:exported="false"
-            tools:replace="android:exported">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>

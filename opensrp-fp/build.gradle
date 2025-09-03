@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.3'
         classpath 'com.google.gms:google-services:4.3.3'
     }
@@ -21,7 +21,7 @@ group = "io.github.bluecodesystems"
 version = project.hasProperty('VERSION_NAME') ? project.VERSION_NAME : "1.0.0-SNAPSHOT"
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.11"
 }
 
 // Force Jackson libraries to use Java 8 compatible versions to avoid Jetifier issues
@@ -62,8 +62,7 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
+    compileSdk androidCompileSdkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -71,8 +70,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
+        minSdk androidMinSdkVersion
+        targetSdk androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
         // multidex not required (minSdk 28+)
@@ -91,7 +90,7 @@ android {
     }
 
 
-    lintOptions {
+    lint {
         lintConfig file("lint.xml")
         abortOnError false
     }
@@ -103,22 +102,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            testCoverageEnabled true
+            // Disable coverage to avoid Jacoco instrumentation on dependencies during dexing
+            // Re-enable once AGP/Jacoco versions are aligned with AndroidX 1.7+ class files
+            // testCoverageEnabled true
         }
     }
 
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'LICENSE.txt'
+        resources {
+            excludes += ['META-INF/DEPENDENCIES.txt',
+                         'META-INF/LICENSE.txt',
+                         'META-INF/NOTICE.txt',
+                         'META-INF/NOTICE',
+                         'META-INF/LICENSE',
+                         'META-INF/DEPENDENCIES',
+                         'META-INF/notice.txt',
+                         'META-INF/license.txt',
+                         'META-INF/dependencies.txt',
+                         'META-INF/LGPL2.1',
+                         'LICENSE.txt']
+        }
     }
 
     testOptions {
@@ -127,8 +130,9 @@ android {
             includeAndroidResources = true
         }
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
+        buildConfig = true
     }
 
     // Enable publishing of the release variant and attach sources
@@ -138,10 +142,7 @@ android {
         }
     }
 
-    // Generate BuildConfig for library (AGP 7+ disables it by default)
-    buildFeatures {
-        buildConfig = true
-    }
+    // BuildConfig enabled above
 
     namespace "org.smartregister.fp"
 }
@@ -241,14 +242,13 @@ dependencies {
     }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     reports {
-        xml.enabled = true
-        html.enabled = true
+        xml.required.set(true)
+        html.required.set(true)
+        xml.outputLocation.set(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
+        html.outputLocation.set(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
     }
-
-    getReports().getXml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
-    getReports().getHtml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$ViewBinder*.*']
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes/", excludes: fileFilter)
@@ -279,7 +279,7 @@ task javadoc(type: Javadoc) {
     failOnError false
     def mainSrc = "$project.projectDir/src/main/java"
     source = files([mainSrc])
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += project.files(android.bootClasspath.join(File.pathSeparator))
     classpath += configurations.implementation
 }
 

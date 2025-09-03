@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.2.2'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.3'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-rc2'
@@ -69,6 +69,8 @@ configurations {
                 details.because 'Use consistent version to avoid duplicate classes'
             }
         }
+
+        // No forced AndroidX versions; AGP 8 + JDK 17 supports latest
     }
 }
 
@@ -100,13 +102,12 @@ android {
     }
 
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion androidCompileSdkVersion
-    buildToolsVersion androidBuildToolsVersion
+    compileSdk androidCompileSdkVersion
 
     defaultConfig {
         applicationId "org.smartregister.sample.fp"
-        minSdkVersion androidMinSdkVersion
-        targetSdkVersion androidTargetSdkVersion
+        minSdk androidMinSdkVersion
+        targetSdk androidTargetSdkVersion
         versionCode generateVersionCode()
         versionName generateVersionName()
         buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
@@ -145,7 +146,7 @@ android {
     }
 
 
-    lintOptions {
+    lint {
         lintConfig file("lint.xml")
         abortOnError false
     }
@@ -184,23 +185,26 @@ android {
             buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '15'
             buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
             buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
-            testCoverageEnabled true
+            // Disable coverage to avoid Jacoco instrumentation on dependencies during dexing
+            // Re-enable once AGP/Jacoco versions are aligned with AndroidX 1.7+ class files
+            // testCoverageEnabled true
         }
     }
 
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'LICENSE.txt'
-
+        resources {
+            excludes += ['META-INF/DEPENDENCIES.txt',
+                         'META-INF/LICENSE.txt',
+                         'META-INF/NOTICE.txt',
+                         'META-INF/NOTICE',
+                         'META-INF/LICENSE',
+                         'META-INF/DEPENDENCIES',
+                         'META-INF/notice.txt',
+                         'META-INF/license.txt',
+                         'META-INF/dependencies.txt',
+                         'META-INF/LGPL2.1',
+                         'LICENSE.txt']
+        }
     }
 
     testOptions {
@@ -213,6 +217,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    // Required with AGP 8 when using custom BuildConfig fields
+    buildFeatures {
+        buildConfig = true
+    }
+
+    // Explicit namespace is required on AGP 8+
+    namespace "org.smartregister.sample.fp"
 
 }
 
