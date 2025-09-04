@@ -1,6 +1,9 @@
 jdk:
   - openjdk17
 install:
+  # Build the AAR
   - ./gradlew :opensrp-fp:assembleRelease -x test --no-daemon --stacktrace
+  # Publish the MavenPublication to local Maven so JitPack can find POM + AAR
+  - ./gradlew :opensrp-fp:publishReleasePublicationToMavenLocal -x test --no-daemon --stacktrace
 env:
   CI: true
