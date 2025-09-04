@@ -124,9 +124,9 @@ If migrating from the original OpenSRP Family Planning library:
 ### Maven Central Publishing
 ```bash
 # Generate signed bundle for Maven Central
-./gradlew :opensrp-fp:zipCentralBundle -PcentralBundle=true -PcentralRelease=true -PuseGpgCmd=true -PVERSION_NAME=2.0.0
+./gradlew :opensrp-fp:zipCentralBundle -PcentralBundle=true -PcentralRelease=true -PuseGpgCmd=true -PVERSION_NAME=2.1.0
 
-# Bundle location: opensrp-fp/build/distributions/central-bundle-opensrp-client-fp-2.0.0.zip
+# Bundle location: opensrp-fp/build/distributions/central-bundle-opensrp-client-fp-2.1.0.zip
 ```
 
 ## Contributing
